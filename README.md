@@ -8,5 +8,5 @@ To use:
 3. Add the shortener to `urls.py`.
     * Example: `path('s/', include('shortener.urls'))` will shorten URLs to `https://example.com/s/<ID>`.
 4. `python manage.py migrate`
-5. Either add in URL shortcuts manually, or add some hook in your project to call `shortener.models.shorten`. The function takes in a long URL
-and returns a `Url` object which contains the shortened url as `Url.shortened`
+5. Either add in URL shortcuts manually through Admin, or add some hook in your project to call `shortener.models.shorten`.
+The function takes in a long URL and returns a `Url` object which contains the full shortened url as `Url.shortened`, and the slug in `Url.short_id`.
