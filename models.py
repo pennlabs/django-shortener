@@ -15,17 +15,17 @@ class Url(models.Model):
     def shortened(self):
         return '%s/s/%s' % (settings.BASE_URL, self.short_id)
 
+    @classmethod
+    def create(cls, long_url):
+        if Url.objects.filter(long_url=long_url).exists():  # If a shortened URL already exists, don't make a duplicate.
+            return Url.objects.get(long_url=long_url)
 
-def shorten(long_url):
-    if Url.objects.filter(long_url=long_url).exists():  # If a shortened URL already exists, don't make a duplicate.
-        return Url.objects.get(long_url=long_url)
+        hashed = hashlib.sha3_256(long_url.encode('utf-8')).hexdigest()
+        length = 5
 
-    hashed = hashlib.sha3_256(long_url.encode('utf-8')).hexdigest()
-    length = 5
+        while Url.objects.filter(short_id=hashed[:length]).exists():
+            length += 1
 
-    while Url.objects.filter(short_id=hashed[:length]).exists():
-        length += 1
-
-    url = Url(long_url=long_url, short_id=hashed[:length])
-    url.save()
-    return url
+        url = cls(short_id=hashed[:length], long_url=long_url)
+        url.save()
+        return url
