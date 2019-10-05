@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 
 from shortener.manager import UrlManager
@@ -10,9 +9,5 @@ class Url(models.Model):
 
     def __str__(self):
         return '%s -- %s' % (self.long_url, self.short_id)
-
-    @property
-    def shortened(self):
-        return '%s/s/%s' % (settings.BASE_URL, self.short_id)
 
     objects = UrlManager()
