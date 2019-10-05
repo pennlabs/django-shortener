@@ -22,9 +22,12 @@ class UrlTestCase(TestCase):
         self.assertEqual(len(Url.objects.all()), 1)
         self.assertEqual(Url.objects.all()[0], url)
 
-    @patch('shortener.manager.hashlib.sha3_256')
+    @patch('shortener.manager.hashlib')
     def test_collision(self, mock_hash):
-        mock_hash.return_value.hexdigest.return_value = 'abcdef'
+        try:
+            mock_hash.sha3_256.return_value.hexdigest.return_value = 'abcdef'
+        except AttributeError:
+            mock_hash.sha256.return_value.hexdigest.return_value = 'abcdef'
         url1 = Url.objects.get_or_create(long_url='url1')
         url2 = Url.objects.get_or_create(long_url='url2')
         self.assertEqual(url1.short_id, 'abcde')
