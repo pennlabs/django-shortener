@@ -1,0 +1,74 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/pennlabs
+    docker:
+      - image: pennlabs/tox
+    steps:
+      - checkout
+      - run:
+          name: Run tests
+          command: |
+            tox
+      - run:
+          name: Upload code coverage
+          command: |
+            coveralls
+      - store_test_results:
+          path: test-results
+      - store_artifacts:
+          path: test_results
+          destination: trl
+  publish:
+    working_directory: ~/pennlabs
+    docker:
+      - image: circleci/python:3.7
+    steps:
+      - checkout
+      - restore_cache:
+          key: v1-dependency-cache-{{ checksum "setup.py" }}
+      - run:
+          name: Install dependencies
+          command: |
+            sudo pip install setuptools wheel twine
+      - save_cache:
+          key: v1-dependency-cache-{{ checksum "setup.py" }}
+          paths:
+            - "/usr/local/bin"
+            - "/usr/local/lib/python3.7/site-packages"
+      - run:
+          name: Verify git tag vs. version
+          command: |
+            python3 setup.py verify
+      - run:
+          name: Init .pypirc
+          command: |
+            echo -e "[pypi]" >> ~/.pypirc
+            echo -e "username = $PYPI_USERNAME" >> ~/.pypirc
+            echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+      - run:
+          name: Create packages
+          command: |
+            python3 setup.py sdist bdist_wheel
+      - run:
+          name: Upload to pypi
+          command: |
+            twine upload dist/*
+
+workflows:
+  version: 2
+  build-and-publish:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+      - publish:
+          context: pypi-publish
+          requires:
+            - build
+          filters:
+            tags:
+              only: /[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/
