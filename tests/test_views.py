@@ -9,7 +9,7 @@ from shortener.models import Url
 class RedirectViewTestCase(TestCase):
     def setUp(self):
         self.redirect = 'https://pennlabs.org'
-        self.url = Url.objects.get_or_create(long_url=self.redirect)
+        self.url, _ = Url.objects.get_or_create(long_url=self.redirect)
 
     def test_exists(self):
         try:

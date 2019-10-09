@@ -10,15 +10,18 @@ class UrlTestCase(TestCase):
         self.redirect = 'https://pennlabs.org'
 
     def test_exists(self):
-        url = Url.objects.get_or_create(long_url=self.redirect)
+        url, created1 = Url.objects.get_or_create(long_url=self.redirect)
         self.assertEqual(len(Url.objects.all()), 1)
-        Url.objects.get_or_create(long_url=self.redirect)
+        self.assertTrue(created1)
+        _, created2 = Url.objects.get_or_create(long_url=self.redirect)
+        self.assertFalse(created2)
         self.assertEqual(len(Url.objects.all()), 1)
         self.assertEqual(Url.objects.all()[0], url)
 
     def test_no_exists(self):
         self.assertEqual(len(Url.objects.all()), 0)
-        url = Url.objects.get_or_create(long_url=self.redirect)
+        url, created = Url.objects.get_or_create(long_url=self.redirect)
+        self.assertTrue(created)
         self.assertEqual(len(Url.objects.all()), 1)
         self.assertEqual(Url.objects.all()[0], url)
 
@@ -28,7 +31,9 @@ class UrlTestCase(TestCase):
             mock_hash.sha3_256.return_value.hexdigest.return_value = 'abcdef'
         except AttributeError:
             mock_hash.sha256.return_value.hexdigest.return_value = 'abcdef'
-        url1 = Url.objects.get_or_create(long_url='url1')
-        url2 = Url.objects.get_or_create(long_url='url2')
+        url1, created1 = Url.objects.get_or_create(long_url='url1')
+        url2, created2 = Url.objects.get_or_create(long_url='url2')
         self.assertEqual(url1.short_id, 'abcde')
+        self.assertTrue(created1)
         self.assertEqual(url2.short_id, 'abcdef')
+        self.assertTrue(created2)
