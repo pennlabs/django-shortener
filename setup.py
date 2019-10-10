@@ -27,7 +27,7 @@ setup(
     name='shortener',
     version=VERSION,
     packages=['shortener'],
-    url='http://github.com/pennlabs/shortener',
+    url='https://github.com/pennlabs/shortener',
     project_urls={
         'Changelog': ('https://github.com/pennlabs/shortener/blob/master/CHANGELOG.md')
     },
