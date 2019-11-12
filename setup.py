@@ -1,7 +1,7 @@
 import os
 import sys
 
-from setuptools import setup
+from setuptools import find_packages, setup
 from setuptools.command.install import install
 
 
@@ -25,7 +25,7 @@ class VerifyVersionCommand(install):
 setup(
     name="shortener",
     version=VERSION,
-    packages=["shortener"],
+    packages=find_packages(exclude=["tests"]),
     url="https://github.com/pennlabs/shortener",
     project_urls={"Changelog": ("https://github.com/pennlabs/shortener/blob/master/CHANGELOG.md")},
     license="MIT",
