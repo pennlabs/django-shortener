@@ -9,9 +9,9 @@ class UrlManager(models.Manager):
             return self.get(long_url=long_url), False
 
         try:
-            hashed = hashlib.sha3_256(long_url.encode('utf-8')).hexdigest()
+            hashed = hashlib.sha3_256(long_url.encode("utf-8")).hexdigest()
         except AttributeError:
-            hashed = hashlib.sha256(long_url.encode('utf-8')).hexdigest()
+            hashed = hashlib.sha256(long_url.encode("utf-8")).hexdigest()
         length = 5
 
         while self.filter(short_id=hashed[:length]).exists():

@@ -8,6 +8,6 @@ class Url(models.Model):
     short_id = models.SlugField()
 
     def __str__(self):
-        return '%s -- %s' % (self.long_url, self.short_id)
+        return "%s -- %s" % (self.long_url, self.short_id)
 
     objects = UrlManager()

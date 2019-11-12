@@ -7,6 +7,7 @@
 Basic URL shortener as a Django app.
 
 To use:
+
 1. Install using pip `pip install shortener`
 2. Include `shortener.apps.ShortenerConfig` to `INSTALLED_APPS` in your project's `settings.py`
 3. Add the shortener to `urls.py`.
