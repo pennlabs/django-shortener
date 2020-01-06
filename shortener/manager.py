@@ -5,7 +5,9 @@ from django.db import models
 
 class UrlManager(models.Manager):
     def get_or_create(self, long_url):
-        if self.filter(long_url=long_url).exists():  # If a shortened URL already exists, don't make a duplicate.
+        if self.filter(
+            long_url=long_url
+        ).exists():  # If a shortened URL already exists, don't make a duplicate.
             return self.get(long_url=long_url), False
 
         try:
