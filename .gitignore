@@ -1,9 +1,13 @@
+# IDEs and OSs
+.vscode
 .DS_Store
-dist/
-__pycache__/
-*.pyc
+
+# Python
 build/
-*.egg-info
 .coverage
+dist/
+*.egg-info
+*.pyc
+__pycache__/
 .tox
 test-results/

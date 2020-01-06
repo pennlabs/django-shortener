@@ -1,7 +1,7 @@
 # shortener
 
 [![CircleCI](https://circleci.com/gh/pennlabs/shortener.svg?style=shield)](https://circleci.com/gh/pennlabs/shortener)
-[![Coverage Status](https://coveralls.io/repos/github/pennlabs/shortener/badge.svg?branch=master)](https://coveralls.io/github/pennlabs/shortener?branch=master)
+[![Coverage Status](https://codecov.io/gh/pennlabs/shortener/branch/master/graph/badge.svg)](https://codecov.io/gh/pennlabs/shortener)
 [![PyPi Package](https://img.shields.io/pypi/v/shortener.svg)](https://pypi.org/project/shortener/)
 
 Basic URL shortener as a Django app.
