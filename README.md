@@ -1,4 +1,4 @@
-# shortener
+# Django Shortener
 
 [![CircleCI](https://circleci.com/gh/pennlabs/django-shortener.svg?style=shield)](https://circleci.com/gh/pennlabs/django-shortener)
 [![Coverage Status](https://codecov.io/gh/pennlabs/django-shortener/branch/master/graph/badge.svg)](https://codecov.io/gh/pennlabs/django-shortener)
@@ -6,12 +6,47 @@
 
 Basic URL shortener as a Django app.
 
-To use:
+## Requirements
 
-1. Install using pip `pip install shortener`
-2. Include `shortener.apps.ShortenerConfig` to `INSTALLED_APPS` in your project's `settings.py`
-3. Add the shortener to `urls.py`.
-    - Example: `path('s/', include('shortener.urls', namespace='shortener'))` will shorten URLs to `https://example.com/s/<ID>`.
-4. `python manage.py migrate`
-5. Either add in URL shortcuts manually through Admin, or add some hook in your project to call `shortener.objects.get_or_create`.
-The function takes in a long URL and returns a `Url` object which contains the full shortened url as `Url.shortened`, and the slug in `Url.short_id`.
+* Python 3.6+
+* Django 2.2+
+
+## Installation
+
+Install with pip `pip install shortener`
+
+Add `shortener` to `INSTALLED_APPS`
+
+```python
+INSTALLED_APPS = (
+    ...
+    'shortener.apps.ShortenerConfig',
+    ...
+)
+```
+
+Add the following to `urls.py`
+
+```python
+urlpatterns = [
+    ...
+    path('s/', include('shortener.urls', namespace='shortener')),
+    ...
+]
+```
+
+This will shorten URLs to `example.com/s/<slug>`
+
+Run migrations `./manage.py migrate`
+
+## Documentation
+
+Shortened URLs can be created using the django admin site or by calling `shortener.models.Url.get_or_create()` with the URL you want to shorten.
+
+## Changelog
+
+See [CHANGELOG.md](https://github.com/pennlabs/django-runtime-options/blob/master/CHANGELOG.md)
+
+## License
+
+See [LICENSE](https://github.com/pennlabs/django-runtime-options/blob/master/LICENSE)
